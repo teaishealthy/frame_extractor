@@ -32,8 +32,7 @@ async def convert_command(ctx: commands.Context, frame: int = 0):
         async with aiohttp.ClientSession() as session:
             for video in videos:
                 async with session.get(video.url) as response:
-                    with open(temp_dir / video.filename, "wb") as f:
-                        f.write(await response.read())
+                    await video.save(temp_dir / video.filename)
 
                     reader = video_reader.VideoReader(temp_dir / video.filename)
 
