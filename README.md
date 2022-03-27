@@ -10,7 +10,7 @@ prefix is one of [nextcord!, nc!, pycord!, pc!].
 
 | Command | Description |
 | ------ | ----------- |
-| prefix!version | Displays the versions of the used dependecies |
+| prefix!version | Displays the versions of the used dependencies |
 | prefix!frame \<frame:int>  | Extracts the frame from the video and sends it as a file |
 
 ## Using 
