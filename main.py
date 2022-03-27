@@ -32,29 +32,28 @@ async def convert_command(ctx: commands.Context, frame: int = 0):
 
         async with aiohttp.ClientSession() as session:
             for video in videos:
-                async with session.get(video.url) as response:
-                    await video.save(temp_dir / video.filename)
+                await video.save(temp_dir / video.filename)
 
-                    reader = video_reader.VideoReader(temp_dir / video.filename)
+                reader = video_reader.VideoReader(temp_dir / video.filename)
 
-                    first_frame = await bot.loop.run_in_executor(
-                        None, lambda: reader.get_batch([frame])
-                    )  # Not sure if this is needed but it is probably a good idea
+                first_frame = await bot.loop.run_in_executor(
+                    None, lambda: reader.get_batch([frame])
+                )  # Not sure if this is needed but it is probably a good idea
 
-                    buffer = io.BytesIO()
+                buffer = io.BytesIO()
 
-                    with Image.frombuffer(
-                        "RGB", (reader.width, reader.height), first_frame.flatten()
-                    ) as img:
-                        img.save(buffer, "png")
+                with Image.frombuffer(
+                    "RGB", (reader.width, reader.height), first_frame.flatten()
+                ) as img:
+                    img.save(buffer, "png")
 
-                    buffer.seek(0)
+                buffer.seek(0)
 
-                    await ctx.send(
-                        file=nextcord.File(
-                            buffer, str(temp_dir / f"{video.filename}.png")
-                        )
+                await ctx.send(
+                    file=nextcord.File(
+                        buffer, str(temp_dir / f"{video.filename}.png")
                     )
+                )
 
     except Exception as e:
         traceback.print_exception(type(e), e, e.__traceback__)
