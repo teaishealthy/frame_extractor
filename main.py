@@ -1,3 +1,4 @@
+import io
 import os
 import shutil
 import tempfile
@@ -40,13 +41,19 @@ async def convert_command(ctx: commands.Context, frame: int = 0):
                         None, lambda: reader.get_batch([frame])
                     )  # Not sure if this is needed but it is probably a good idea
 
-                    img = Image.frombuffer(
+                    buffer = io.BytesIO()
+
+                    with Image.frombuffer(
                         "RGB", (reader.width, reader.height), first_frame.flatten()
-                    )
-                    img.save(temp_dir / f"{video.filename}.png", "png")
+                    ) as img:
+                        img.save(buffer, "png")
+
+                    buffer.seek(0)
 
                     await ctx.send(
-                        file=nextcord.File(temp_dir / f"{video.filename}.png")
+                        file=nextcord.File(
+                            buffer, str(temp_dir / f"{video.filename}.png")
+                        )
                     )
 
     except Exception as e:
