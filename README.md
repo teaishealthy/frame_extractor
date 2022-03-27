@@ -38,6 +38,4 @@ Have fun!
 
 ## License
 
-Licensed under the MIT License
-
-See [LICENSE](LICENSE)
+Licensed under the [MIT License](LICENSE)
