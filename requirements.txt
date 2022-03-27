@@ -1,0 +1,4 @@
+aiohttp==3.8.1
+nextcord==2.0.0a10
+Pillow==9.0.1
+pycord==0.1.1
